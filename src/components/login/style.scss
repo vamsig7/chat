@@ -55,6 +55,23 @@
       }
     }
   }
+  .loggedIn {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    width: fit-content;
+    label {
+      font-size: 16px;
+    }
+    input.checkbox {
+      width: 20px;
+      height: 20px;
+      &:focus {
+        outline: none;
+        box-shadow: 0px 0px 12px 0.8px #3474dbb2;
+      }
+    }
+  }
 
   .footer {
     margin-top: 3em;

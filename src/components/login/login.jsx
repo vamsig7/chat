@@ -7,12 +7,15 @@ export class Login extends React.Component {
     this.state = {
       userName: "",
       passWord: "",
-      userToken: ""
+      checkBox: true
     };
   }
   async handleLoginButton(event) {
     var token = await AccessToken(this.state.userName, this.state.passWord);
-    if (token !== undefined) this.setState({ userToken: token });
+    if (token !== undefined && this.checkBox === true) {
+      localStorage.setItem("token", this.userToken);
+      localStorage.setItem("rememberMe", true);
+    }
     event.persist();
   }
   handleUserName = event => {
@@ -21,6 +24,7 @@ export class Login extends React.Component {
   handlePassWord = event => {
     this.setState({ passWord: event.target.value });
   };
+  handleToken = event => {};
   render() {
     return (
       <div className="base-container" ref={this.props.containerRef}>
@@ -49,6 +53,18 @@ export class Login extends React.Component {
               />
             </div>
           </div>
+        </div>
+        <div className="loggedIn">
+          <input
+            className="checkbox"
+            type="checkbox"
+            defaultChecked={false}
+            onChange={() => {
+              this.setState({ checkBox: !this.state.checkBox });
+              localStorage.setItem("rememberMe", this.state.checkBox);
+            }}
+          />
+          <label>Keep me logged in </label>
         </div>
         <div className="footer" onClick={this.handleLoginButton.bind(this)}>
           <button type="button" className="btn">
@@ -80,12 +96,12 @@ async function AccessToken(userName, passWord) {
       })
   );
 }
-function handleResponse(response, username) {
-  if (response === "Username Exists") {
-    alert("Username  already exists Exists");
-  } else if (response === "Internal db error") {
-    alert("Something went wrong try again later");
-  } else {
-    alert("Successfully insertd");
-  }
-}
+// function handleResponse(response, username) {
+//   if (response === "Username Exists") {
+//     alert("Username  already exists Exists");
+//   } else if (response === "Internal db error") {
+//     alert("Something went wrong try again later");
+//   } else {
+//     alert("Successfully insertd");
+//   }
+// }
