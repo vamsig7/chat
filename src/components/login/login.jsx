@@ -1,21 +1,28 @@
 import React from "react";
 import loginImg from "../../logo.svg";
-var rp = require("request-promise");
+
+import request from "request";
 export class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       userName: "",
       passWord: "",
-      checkBox: true
+      checkBox: true,
+      rememberMe: true
     };
   }
+
   async handleLoginButton(event) {
     var token = await AccessToken(this.state.userName, this.state.passWord);
-    if (token !== undefined && this.checkBox === true) {
-      localStorage.setItem("token", this.userToken);
+    console.log(token);
+    if (token !== undefined && !this.state.checkBox === true) {
+      localStorage.setItem("token", token);
       localStorage.setItem("rememberMe", true);
+
+      this.setState({ rememberMe: false });
     }
+
     event.persist();
   }
   handleUserName = event => {
@@ -61,7 +68,6 @@ export class Login extends React.Component {
             defaultChecked={false}
             onChange={() => {
               this.setState({ checkBox: !this.state.checkBox });
-              localStorage.setItem("rememberMe", this.state.checkBox);
             }}
           />
           <label>Keep me logged in </label>
@@ -78,22 +84,30 @@ export class Login extends React.Component {
 async function AccessToken(userName, passWord) {
   var options = {
     method: "POST",
-    uri: "http://node-server-clc.herokuapp.com/api/v1/login",
+    uri: "",
     form: {
-      username: "hello",
-      password: "1234"
+      username: userName,
+      password: passWord
     }
   };
   return new Promise((resolve, reject) =>
-    rp(options)
-      .then(response => {
-        console.log(response.status + response);
-        if (response !== undefined) resolve(response);
-        else reject(response);
-      })
-      .catch(err => {
-        console.log(err);
-      })
+    request(
+      {
+        url: "http://node-server-t.herokuapp.com/api/v1/login",
+        form: {
+          username: userName,
+          password: passWord
+        },
+        method: "POST"
+      },
+      (err, res, body) => {
+        if (err) throw err;
+        else {
+          var token = JSON.parse(body).token.split(" ")[1];
+          resolve(token);
+        }
+      }
+    )
   );
 }
 // function handleResponse(response, username) {

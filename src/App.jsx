@@ -1,7 +1,8 @@
 import React from "react";
 import "./App.scss";
 import { Main } from "./components/login/index";
-
+import Messenger from "./components/chat/Messenger";
+import MessageDemo from "./components/chat/MessageDemo/messagedemo";
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -13,11 +14,10 @@ class App extends React.Component {
   componentDidMount() {
     this.setState({ rememberMe: localStorage.getItem("rememberMe") });
     this.setState({ userToken: localStorage.getItem("token") });
-    console.log(localStorage.getItem("rememberMe"));
   }
   render() {
     if (this.state.rememberMe) {
-      return <div>logged in </div>;
+      return <MessageDemo />;
     } else {
       return <Main />;
     }

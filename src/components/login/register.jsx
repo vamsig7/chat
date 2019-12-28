@@ -64,7 +64,7 @@ export class Register extends React.Component {
 function AccessToken(userName, passWord) {
   var options = {
     method: "POST",
-    uri: "http://node-server-clc.herokuapp.com/api/v1/create",
+    uri: "http://node-server-t.herokuapp.com/api/v1/create",
     form: {
       username: userName,
       password: passWord
