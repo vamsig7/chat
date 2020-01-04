@@ -1,6 +1,5 @@
 import React from "react";
 import loginImg from "../../logo.svg";
-
 import request from "request";
 export class Login extends React.Component {
   constructor(props) {
@@ -82,14 +81,6 @@ export class Login extends React.Component {
   }
 }
 async function AccessToken(userName, passWord) {
-  var options = {
-    method: "POST",
-    uri: "",
-    form: {
-      username: userName,
-      password: passWord
-    }
-  };
   return new Promise((resolve, reject) =>
     request(
       {

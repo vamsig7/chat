@@ -11,42 +11,15 @@ class MessageList extends React.Component {
     super(props);
     this.state = {};
   }
-  getMessages = () => {
-    request.get(
-      {
-        url: "http://node-server-t.herokuapp.com/api/v1/getMessages",
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-          convId: "5e065bfedf675c0017823b9c"
-        }
-      },
-      (err, res, body) => {
-        if (err) {
-          console.log("error here");
-        } else {
-          var message = JSON.parse(body).data.messages[0].body;
-          console.log(message);
-          store.tasks.push({
-            id: "200",
-            message: message,
-            isMine: false
-          });
-        }
-      }
-    );
-  };
-  componentDidMount() {
-    this.getMessages();
-  }
   sendMessage(message) {
     request.post(
       {
         url: "http://node-server-t.herokuapp.com/api/v1/sendMessage",
         headers: {
-          Authorization: "Bearer " + localStorage.getItem("token")
+          Authorization: "Bearer " + localStorage.getItem("token"),
+          convId: store.tasks[0].id
         },
         form: {
-          username: 1,
           message: message
         }
       },

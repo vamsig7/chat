@@ -59,8 +59,7 @@ export class Register extends React.Component {
     );
   }
 }
-//"http://node-server-clc.herokuapp.com/api/v1/create"
-//"http://192.168.137.1:3000/api/v1/create"
+
 function AccessToken(userName, passWord) {
   var options = {
     method: "POST",
